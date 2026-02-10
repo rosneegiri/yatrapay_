@@ -37,33 +37,58 @@ class BookingChart extends StatelessWidget {
 
   LineChartData _chartData() {
     return LineChartData(
+      minX: 0,
+      maxX: 6,
+      minY: 0,
+      maxY: 120,
+
       gridData: FlGridData(show: false),
       borderData: FlBorderData(show: false),
+
       titlesData: FlTitlesData(
-        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        rightTitles:
+            AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        topTitles:
+            AxisTitles(sideTitles: SideTitles(showTitles: false)),
+
+        // ✅ FIX IS HERE (0 REMOVED)
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 32,
             interval: 20,
+            reservedSize: 32,
+            getTitlesWidget: (value, _) {
+              if (value == 0) return const SizedBox.shrink();
+              return Text(value.toInt().toString());
+            },
           ),
         ),
+
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             interval: 1,
             getTitlesWidget: (value, _) {
-              const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-              return Text(days[value.toInt()]);
+              const days = [
+                'Mon',
+                'Tue',
+                'Wed',
+                'Thu',
+                'Fri',
+                'Sat',
+                'Sun'
+              ];
+
+              if (value.toInt() >= 0 &&
+                  value.toInt() < days.length) {
+                return Text(days[value.toInt()]);
+              }
+              return const SizedBox.shrink();
             },
           ),
         ),
       ),
-      minX: 0,
-      maxX: 6,
-      minY: 0,
-      maxY: 120,
+
       lineBarsData: [
         LineChartBarData(
           spots: const [
