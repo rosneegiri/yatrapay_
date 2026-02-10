@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
+
+import 'core/app_role.dart';
+import 'auth/auth_controller.dart';
 import 'layout/app_layout.dart';
-import 'thems.dart';
-import 'users/user_page.dart';
+import 'auth/auth_screen.dart';
 
 void main() {
-  runApp(const YatrapaAdminApp());
+  runApp(const MyApp());
 }
 
-class YatrapaAdminApp extends StatelessWidget {
-  const YatrapaAdminApp({super.key});
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return MaterialApp(
-  //     debugShowCheckedModeBanner: false,
-  //     title: 'Yatrapa Admin',
-  //     theme: AppTheme.lightTheme,
-  //     // home: const AppLayout(isAdmin: true), 
-  //     home: const AppLayout(isAdmin: false),
-
-  //   );
-  // }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
-Widget build(BuildContext context) {
-  return MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: 'Yatrapa',
-    theme: AppTheme.lightTheme,
-    home: const UserPage(), // 👈 TEST USER UI
-  );
-}
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'YatraPay',
+      theme: ThemeData(primarySwatch: Colors.indigo),
 
+     
+      home: AuthController.isLoggedIn
+          ? AppLayout(role: AuthController.role!)
+          : const AuthScreen(),
+    );
+  }
 }
