@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/app_role.dart';
 import 'sidebar.dart';
 import '../vendor/vendor_page.dart';
 
@@ -35,9 +36,10 @@ class _VendorLayoutState extends State<VendorLayout> {
       body: Row(
         children: [
           Sidebar(
+            role: AppRole.vendor, // 🔥 REQUIRED
             selectedVendorPage: _currentPage,
             onVendorPageSelected: (page) {
-              setState(() => _currentPage = page as VendorPage);
+              setState(() => _currentPage = page);
             },
           ),
           Expanded(child: _getPage()),
