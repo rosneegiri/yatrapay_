@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'layout/app_layout.dart';
 import 'thems.dart';
+import 'users/user_page.dart';
 
 void main() {
   runApp(const YatrapaAdminApp());
@@ -9,15 +10,26 @@ void main() {
 class YatrapaAdminApp extends StatelessWidget {
   const YatrapaAdminApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Yatrapa Admin',
-      theme: AppTheme.lightTheme,
-      // home: const AppLayout(isAdmin: true), 
-      home: const AppLayout(isAdmin: false),
+  // @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     debugShowCheckedModeBanner: false,
+  //     title: 'Yatrapa Admin',
+  //     theme: AppTheme.lightTheme,
+  //     // home: const AppLayout(isAdmin: true), 
+  //     home: const AppLayout(isAdmin: false),
 
-    );
-  }
+  //   );
+  // }
+
+  @override
+Widget build(BuildContext context) {
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: 'Yatrapa',
+    theme: AppTheme.lightTheme,
+    home: const UserPage(), // 👈 TEST USER UI
+  );
+}
+
 }

@@ -51,7 +51,7 @@ class BookingChart extends StatelessWidget {
         topTitles:
             AxisTitles(sideTitles: SideTitles(showTitles: false)),
 
-        // ✅ FIX IS HERE (0 REMOVED)
+      
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,

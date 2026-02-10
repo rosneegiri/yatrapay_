@@ -74,7 +74,7 @@ class VendorEarningsScreen extends StatelessWidget {
         topTitles:
             AxisTitles(sideTitles: SideTitles(showTitles: false)),
 
-        // ✅ FINAL FIXED LEFT AXIS
+        
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,

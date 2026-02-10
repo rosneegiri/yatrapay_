@@ -51,7 +51,7 @@ class DashboardScreen extends StatelessWidget {
           const BookingChart(),
           const SizedBox(height: 32),
 
-          Expanded(child: RecentTripsTable()), // ✅ works now
+          Expanded(child: RecentTripsTable()),
         ],
       ),
     );

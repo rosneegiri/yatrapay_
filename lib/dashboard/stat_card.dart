@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/widgets/hover_card.dart';
+import '../widgets/hover_card.dart';
 
 class StatCard extends StatelessWidget {
   final String title;

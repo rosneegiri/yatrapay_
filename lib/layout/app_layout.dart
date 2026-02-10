@@ -6,7 +6,7 @@ import '../vendor/vendor_page.dart';
 
 import '../dashboard/dashboard_screen.dart';
 import '../buses/buses_routes_screen.dart';
-import '../users/users_screen.dart';
+import '../users/user_page.dart';
 import '../reports/reports_screen.dart';
 
 import '../vendor/vendor_trips_screen.dart';
@@ -28,12 +28,12 @@ class _AppLayoutState extends State<AppLayout> {
   AdminPage _adminPage = AdminPage.dashboard;
   VendorPage _vendorPage = VendorPage.dashboard;
 
-  // ✅ FINAL, CORRECT PAGE SWITCH
+
   Widget _getPage() {
     if (widget.isAdmin) {
       switch (_adminPage) {
         case AdminPage.users:
-          return const UsersScreen();
+          return const UserPage();
         case AdminPage.buses:
           return BusesRoutesScreen();
         case AdminPage.reports:
