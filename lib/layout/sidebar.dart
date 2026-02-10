@@ -1,125 +1,96 @@
 import 'package:flutter/material.dart';
 import 'admin_page.dart';
-import 'widgets/hover_card.dart';
+import '../vendor/vendor_page.dart';
 
 class Sidebar extends StatelessWidget {
-  final AdminPage selectedPage;
-  final ValueChanged<AdminPage> onPageSelected;
+  final AdminPage? selectedAdminPage;
+  final Function(AdminPage)? onAdminPageSelected;
+
+  final VendorPage? selectedVendorPage;
+  final Function(VendorPage)? onVendorPageSelected;
 
   const Sidebar({
     super.key,
-    required this.selectedPage,
-    required this.onPageSelected,
+    this.selectedAdminPage,
+    this.onAdminPageSelected,
+    this.selectedVendorPage,
+    this.onVendorPageSelected,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool isAdmin = selectedAdminPage != null;
+
     return Container(
       width: 260,
-      padding: const EdgeInsets.all(20),
-      color: Colors.white,
+      color: Colors.grey.shade100,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 40),
           const Text(
-            'Yatrapa Admin',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            'YatraPay',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 30),
 
-          _SidebarItem(
-            icon: Icons.dashboard,
-            title: 'Dashboard',
-            page: AdminPage.dashboard,
-            selectedPage: selectedPage,
-            onTap: onPageSelected,
-          ),
-          _SidebarItem(
-            icon: Icons.directions_bus,
-            title: 'Buses & Routes',
-            page: AdminPage.buses,
-            selectedPage: selectedPage,
-            onTap: onPageSelected,
-          ),
-          _SidebarItem(
-            icon: Icons.people,
-            title: 'Users',
-            page: AdminPage.users,
-            selectedPage: selectedPage,
-            onTap: onPageSelected,
-          ),
-          _SidebarItem(
-            icon: Icons.bar_chart,
-            title: 'Reports',
-            page: AdminPage.reports,
-            selectedPage: selectedPage,
-            onTap: onPageSelected,
-          ),
-
-          const Spacer(),
-
-          _SidebarItem(
-            icon: Icons.settings,
-            title: 'Settings',
-            page: AdminPage.settings,
-            selectedPage: selectedPage,
-            onTap: onPageSelected,
-          ),
+          if (isAdmin) ..._adminItems() else ..._vendorItems(),
         ],
       ),
     );
   }
-}
 
-class _SidebarItem extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final AdminPage page;
-  final AdminPage selectedPage;
-  final ValueChanged<AdminPage> onTap;
+  List<Widget> _adminItems() {
+    return [
+      _item('Dashboard', Icons.dashboard, AdminPage.dashboard,
+          selectedAdminPage == AdminPage.dashboard,
+          () => onAdminPageSelected?.call(AdminPage.dashboard)),
+      _item('Buses', Icons.directions_bus, AdminPage.buses,
+          selectedAdminPage == AdminPage.buses,
+          () => onAdminPageSelected?.call(AdminPage.buses)),
+      _item('Users', Icons.people, AdminPage.users,
+          selectedAdminPage == AdminPage.users,
+          () => onAdminPageSelected?.call(AdminPage.users)),
+      _item('Reports', Icons.bar_chart, AdminPage.reports,
+          selectedAdminPage == AdminPage.reports,
+          () => onAdminPageSelected?.call(AdminPage.reports)),
+    ];
+  }
 
-  const _SidebarItem({
-    required this.icon,
-    required this.title,
-    required this.page,
-    required this.selectedPage,
-    required this.onTap,
-  });
+  List<Widget> _vendorItems() {
+    return [
+      _item('Dashboard', Icons.dashboard, VendorPage.dashboard,
+          selectedVendorPage == VendorPage.dashboard,
+          () => onVendorPageSelected?.call(VendorPage.dashboard)),
+      _item('Buses', Icons.directions_bus, VendorPage.buses,
+          selectedVendorPage == VendorPage.buses,
+          () => onVendorPageSelected?.call(VendorPage.buses)),
+      _item('Trips', Icons.route, VendorPage.trips,
+          selectedVendorPage == VendorPage.trips,
+          () => onVendorPageSelected?.call(VendorPage.trips)),
+      _item('Earnings', Icons.bar_chart, VendorPage.earnings,
+          selectedVendorPage == VendorPage.earnings,
+          () => onVendorPageSelected?.call(VendorPage.earnings)),
+    ];
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    final bool selected = page == selectedPage;
-
-    return GestureDetector(
-      onTap: () => onTap(page),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: selected ? Colors.blue.withOpacity(0.1) : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color: selected ? Colors.blue : Colors.grey,
-            ),
-            const SizedBox(width: 12),
-            Text(
-              title,
-              style: TextStyle(
-                color: selected ? Colors.blue : Colors.grey[700],
-                fontWeight:
-                    selected ? FontWeight.w600 : FontWeight.normal,
-              ),
-            ),
-          ],
+  Widget _item(
+    String title,
+    IconData icon,
+    Object page,
+    bool selected,
+    VoidCallback onTap,
+  ) {
+    return ListTile(
+      leading: Icon(icon, color: selected ? Colors.blue : Colors.black54),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: selected ? Colors.blue : Colors.black87,
+          fontWeight: selected ? FontWeight.bold : FontWeight.normal,
         ),
       ),
+      selected: selected,
+      onTap: onTap,
     );
   }
 }
