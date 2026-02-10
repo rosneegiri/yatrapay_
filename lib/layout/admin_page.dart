@@ -1,7 +1,6 @@
 enum AdminPage {
   dashboard,
-  buses,
   users,
+  buses,
   reports,
-  settings,
 }
