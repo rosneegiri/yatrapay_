@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'payment_screen.dart';
 
 class QrScannerScreen extends StatelessWidget {
-  QrScannerScreen({super.key});
+  const QrScannerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

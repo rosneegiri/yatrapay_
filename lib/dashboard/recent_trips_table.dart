@@ -20,7 +20,7 @@ class RecentTripsTable extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               child: DataTable(
-                headingRowColor: MaterialStateProperty.all(
+                headingRowColor: WidgetStateProperty.all(
                   Colors.grey.shade100,
                 ),
                 columns: const [

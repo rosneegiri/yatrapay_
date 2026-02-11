@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'core/app_role.dart';
 import 'auth/auth_controller.dart';
 import 'layout/app_layout.dart';
 import 'auth/auth_screen.dart';

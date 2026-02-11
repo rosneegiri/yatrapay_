@@ -19,7 +19,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final passwordCtrl = TextEditingController();
 
   void submit() {
-    // ✅ AUTH STATE SET HERE
+ 
     AuthController.login(selectedRole);
 
     Navigator.pushReplacement(
