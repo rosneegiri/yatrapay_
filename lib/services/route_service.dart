@@ -7,7 +7,8 @@ class RouteService {
 
   Future<List<BusRoute>> getRoutes() async {
     final response = await _apiClient.get(ApiConstants.getRoutes);
-    final List<dynamic> data = response['data'] ?? [];
+    // Laravel returns array directly, not wrapped in 'data'
+    final List<dynamic> data = response is List ? response : (response['data'] ?? response);
     return data.map((json) => BusRoute.fromJson(json)).toList();
   }
 

@@ -9,7 +9,8 @@ class TripService {
   Future<List<TripModel>> getTrips() async {
     try {
       final response = await _apiClient.get(ApiConstants.trips);
-      final List trips = response['data'] ?? [];
+      // Laravel returns array directly, not wrapped in 'data'
+      final List trips = response is List ? response : (response['data'] ?? response);
       return trips.map((json) => TripModel.fromJson(json)).toList();
     } catch (e) {
       throw Exception('Failed to load trips: $e');
@@ -20,7 +21,8 @@ class TripService {
   Future<List<TripModel>> getActiveTrips() async {
     try {
       final response = await _apiClient.get(ApiConstants.activeTrips);
-      final List trips = response['data'] ?? [];
+      // Laravel returns array directly, not wrapped in 'data'
+      final List trips = response is List ? response : (response['data'] ?? response);
       return trips.map((json) => TripModel.fromJson(json)).toList();
     } catch (e) {
       throw Exception('Failed to load active trips: $e');

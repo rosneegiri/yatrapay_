@@ -15,7 +15,7 @@ class TripSearchScreen extends StatefulWidget {
 
 class _TripSearchScreenState extends State<TripSearchScreen> {
   final _searchController = TextEditingController();
-  DateTime _selectedDate = DateTime.now();
+  final _placeController = TextEditingController();
   String? _selectedRoute;
 
   @override
@@ -32,20 +32,6 @@ class _TripSearchScreenState extends State<TripSearchScreen> {
   Future<void> _searchTrips() async {
     final tripProvider = Provider.of<TripProvider>(context, listen: false);
     await tripProvider.fetchActiveTrips();
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 30)),
-    );
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
-    }
   }
 
   @override
@@ -98,36 +84,19 @@ class _TripSearchScreenState extends State<TripSearchScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Date Picker
-                InkWell(
-                  onTap: () => _selectDate(context),
-                  child: InputDecorator(
-                    decoration: const InputDecoration(
-                      labelText: 'Travel Date',
-                      prefixIcon: Icon(Icons.calendar_today),
-                      border: OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                    child: Text(
-                      DateFormat('EEE, MMM dd, yyyy').format(_selectedDate),
-                    ),
+                // Place Name Search
+                TextField(
+                  controller: _placeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Search by Place Name',
+                    hintText: 'Enter city, town, or landmark',
+                    prefixIcon: Icon(Icons.location_on),
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 16),
-
-                // Search Button
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: _searchTrips,
-                    icon: const Icon(Icons.search),
-                    label: const Text('Search Trips'),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -356,6 +325,7 @@ class _TripSearchScreenState extends State<TripSearchScreen> {
   @override
   void dispose() {
     _searchController.dispose();
+    _placeController.dispose();
     super.dispose();
   }
 }

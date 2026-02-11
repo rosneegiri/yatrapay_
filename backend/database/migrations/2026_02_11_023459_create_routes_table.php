@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('routes', function (Blueprint $table) {
             $table->id();
+            $table->string('route_name');
+            $table->string('start_location');
+            $table->string('end_location');
+            $table->decimal('distance', 8, 2); // Distance in km
+            $table->decimal('fare', 8, 2); // Minimum fare
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
     }

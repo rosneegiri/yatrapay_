@@ -129,14 +129,28 @@ class ApiClient {
     } else if (statusCode == 404) {
       throw Exception('Resource not found');
     } else if (statusCode == 422) {
-      final error = json.decode(response.body);
-      throw Exception(error['message'] ?? 'Validation error');
+      try {
+        final error = json.decode(response.body);
+        // Handle validation errors
+        if (error['errors'] != null) {
+          final errors = error['errors'] as Map<String, dynamic>;
+          final firstError = errors.values.first;
+          if (firstError is List && firstError.isNotEmpty) {
+            throw Exception(firstError[0]);
+          }
+        }
+        throw Exception(error['message'] ?? 'Invalid credentials');
+      } catch (e) {
+        if (e.toString().contains('Exception:')) rethrow;
+        throw Exception('Invalid credentials');
+      }
     } else {
       try {
         final error = json.decode(response.body);
         throw Exception(error['message'] ?? 'Request failed');
       } catch (e) {
-        throw Exception('Request failed with status: $statusCode');
+        if (e.toString().contains('Exception:')) rethrow;
+        throw Exception('Server error. Please try again.');
       }
     }
   }
