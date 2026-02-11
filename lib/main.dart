@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:provider/provider.dart';
+import 'core/theme/app_theme.dart';
+import 'providers/auth_provider.dart';
+import 'providers/vendor_provider.dart';
+import 'providers/bus_provider.dart';
+import 'providers/route_provider.dart';
+import 'providers/user_provider.dart';
+import 'providers/trip_provider.dart';
+import 'providers/payment_provider.dart';
+import 'screens/web/auth/login_screen.dart' as web;
+import 'screens/mobile/auth/login_screen.dart' as mobile;
 
-import 'auth/auth_controller.dart';
-import 'layout/app_layout.dart';
-import 'auth/auth_screen.dart';
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -13,15 +22,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'YatraPay',
-      theme: ThemeData(primarySwatch: Colors.indigo),
-
-     
-      home: AuthController.isLoggedIn
-          ? AppLayout(role: AuthController.role!)
-          : const AuthScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()..initialize()),
+        ChangeNotifierProvider(create: (_) => VendorProvider()),
+        ChangeNotifierProvider(create: (_) => BusProvider()),
+        ChangeNotifierProvider(create: (_) => RouteProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => TripProvider()),
+        ChangeNotifierProvider(create: (_) => PaymentProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: kIsWeb ? 'YatraPay - Admin & Vendor' : 'YatraPay - User App',
+        theme: kIsWeb ? WebTheme.lightTheme : MobileTheme.lightTheme,
+        home: kIsWeb ? const web.LoginScreen() : const mobile.LoginScreen(),
+      ),
     );
   }
 }
