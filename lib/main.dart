@@ -9,6 +9,7 @@ import 'providers/route_provider.dart';
 import 'providers/user_provider.dart';
 import 'providers/trip_provider.dart';
 import 'providers/payment_provider.dart';
+import 'providers/booking_provider.dart';
 import 'screens/web/auth/login_screen.dart' as web;
 import 'screens/mobile/auth/login_screen.dart' as mobile;
 
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => TripProvider()),
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
+        ChangeNotifierProvider(create: (_) => BookingProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -44,8 +44,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
       if (success && mounted) {
+        // Clear auth data after registration - user must login
+        await authProvider.logout();
+        
+        // Navigate to login screen with success message
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const UserDashboard()),
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
+        );
+        
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Account created successfully! Please login with your credentials.'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 4),
+          ),
         );
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

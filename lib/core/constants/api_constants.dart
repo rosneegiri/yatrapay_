@@ -1,6 +1,8 @@
 class ApiConstants {
   // Base URL - Change this to your Laravel API URL
-  static const String baseUrl = 'http://localhost:8000/api';
+  // For Android Emulator, use 10.0.2.2 instead of localhost
+  // For physical device, use your computer's IP address (e.g., http://192.168.1.100:8000/api)
+  static const String baseUrl = 'http://192.168.18.81:8000/api';
   
   // Auth endpoints
   static const String login = '$baseUrl/login';

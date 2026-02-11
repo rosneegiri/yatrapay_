@@ -3,6 +3,36 @@ import '../core/constants/api_constants.dart';
 import '../models/core/app_role.dart';
 
 class AuthService {
+    // Update Profile
+    Future<Map<String, dynamic>> updateProfile({
+      required String name,
+      required String email,
+      required String phone,
+    }) async {
+      try {
+        final response = await _apiClient.put(
+          ApiConstants.profile,
+          {
+            'name': name,
+            'email': email,
+            'phone': phone,
+          },
+        );
+        return response;
+      } catch (e) {
+        throw Exception('Failed to update profile: $e');
+      }
+    }
+
+    // Fetch Profile
+    Future<Map<String, dynamic>> fetchProfile() async {
+      try {
+        final response = await _apiClient.get(ApiConstants.profile);
+        return response;
+      } catch (e) {
+        throw Exception('Failed to fetch profile: $e');
+      }
+    }
   final ApiClient _apiClient = ApiClient();
 
   // Login

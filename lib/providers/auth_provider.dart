@@ -3,6 +3,43 @@ import '../services/auth_service.dart';
 import '../models/core/app_role.dart';
 
 class AuthProvider with ChangeNotifier {
+    // Update Profile
+    Future<bool> updateProfile({
+      required String name,
+      required String email,
+      required String phone,
+    }) async {
+      _isLoading = true;
+      _errorMessage = null;
+      notifyListeners();
+      try {
+        final response = await _authService.updateProfile(
+          name: name,
+          email: email,
+          phone: phone,
+        );
+        _userData = response['user'] ?? response['data'] ?? response;
+        _isLoading = false;
+        notifyListeners();
+        return true;
+      } catch (e) {
+        _errorMessage = e.toString();
+        _isLoading = false;
+        notifyListeners();
+        return false;
+      }
+    }
+
+    // Fetch Profile
+    Future<void> fetchProfile() async {
+      try {
+        final response = await _authService.fetchProfile();
+        _userData = response['user'] ?? response['data'] ?? response;
+        notifyListeners();
+      } catch (e) {
+        // Optionally handle error
+      }
+    }
   final AuthService _authService = AuthService();
   
   bool _isLoggedIn = false;

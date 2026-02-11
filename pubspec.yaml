@@ -51,7 +51,7 @@ dependencies:
   provider: ^6.1.0
   
   # QR Code (Mobile)
-  qr_code_scanner: ^1.0.1
+  mobile_scanner: ^7.1.4
   qr_flutter: ^4.1.0
   
   # Permissions (Mobile)
