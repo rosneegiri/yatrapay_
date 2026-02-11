@@ -9,14 +9,30 @@ class ApiClient {
 
   String? _token;
   String? _userRole;
+  Map<String, dynamic>? _userData;
 
   // Set authentication data
-  Future<void> setAuthData(String token, String role) async {
+  Future<void> setAuthData(String token, String role, {Map<String, dynamic>? userData}) async {
     _token = token;
     _userRole = role;
+    _userData = userData;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_token', token);
     await prefs.setString('user_role', role);
+    if (userData != null) {
+      await prefs.setString('user_data', json.encode(userData));
+    }
+  }
+
+  // Get user data
+  Future<Map<String, dynamic>?> getUserData() async {
+    if (_userData != null) return _userData;
+    final prefs = await SharedPreferences.getInstance();
+    final userDataString = prefs.getString('user_data');
+    if (userDataString != null) {
+      _userData = json.decode(userDataString);
+    }
+    return _userData;
   }
 
   // Get token
@@ -45,9 +61,11 @@ class ApiClient {
   Future<void> clearAuthData() async {
     _token = null;
     _userRole = null;
+    _userData = null;
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('auth_token');
     await prefs.remove('user_role');
+    await prefs.remove('user_data');
   }
 
   // Common headers

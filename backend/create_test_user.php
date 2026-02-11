@@ -8,7 +8,7 @@ $kernel->bootstrap();
 
 use App\Models\User;
 
-// Create test user
+
 $user = User::create([
     'name' => 'Test User',
     'email' => 'user@test.com',

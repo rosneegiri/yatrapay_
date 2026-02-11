@@ -46,12 +46,13 @@ class AuthService {
         },
       );
       
-      // Store token and role
+      // Store token, role, and user data
       final token = response['token'] ?? response['access_token'];
-      final role = response['user']['role'];
+      final userData = response['user'];
+      final role = userData['role'];
       
       if (token != null && role != null) {
-        await _apiClient.setAuthData(token, role);
+        await _apiClient.setAuthData(token, role, userData: userData);
       }
       
       return response;
@@ -79,10 +80,11 @@ class AuthService {
         },
       );
       
-      // Store token and role
+      // Store token, role, and user data
       final token = response['token'] ?? response['access_token'];
-      if (token != null) {
-        await _apiClient.setAuthData(token, 'user');
+      final userData = response['user'];
+      if (token != null && userData != null) {
+        await _apiClient.setAuthData(token, 'user', userData: userData);
       }
       
       return response;

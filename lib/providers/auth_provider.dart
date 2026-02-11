@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../models/core/app_role.dart';
+import '../core/network/api_client.dart';
 
 class AuthProvider with ChangeNotifier {
     // Update Profile
@@ -56,9 +57,38 @@ class AuthProvider with ChangeNotifier {
 
   // Initialize - Check if already logged in
   Future<void> initialize() async {
+    final apiClient = ApiClient();
     _isLoggedIn = await _authService.isLoggedIn();
     if (_isLoggedIn) {
       _userRole = await _authService.getCurrentRole();
+      // Load saved user data from SharedPreferences first
+      _userData = await apiClient.getUserData();
+      
+      // If we have user data from storage, use it (works offline)
+      if (_userData != null) {
+        notifyListeners();
+        return;
+      }
+      
+      // Otherwise fetch from API (requires internet)
+      try {
+        final response = await _authService.fetchProfile();
+        _userData = response['user'] ?? response['data'] ?? response;
+        // Save the fetched data for next time
+        if (_userData != null) {
+          final token = await apiClient.getToken();
+          final role = await apiClient.getUserRole();
+          if (token != null && role != null) {
+            await apiClient.setAuthData(token, role, userData: _userData);
+          }
+        }
+      } catch (e) {
+        // If fetch fails but we had a token, clear auth data
+        _isLoggedIn = false;
+        _userRole = null;
+        _userData = null;
+        await _authService.logout();
+      }
     }
     notifyListeners();
   }

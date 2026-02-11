@@ -10,8 +10,8 @@ import 'providers/user_provider.dart';
 import 'providers/trip_provider.dart';
 import 'providers/payment_provider.dart';
 import 'providers/booking_provider.dart';
-import 'screens/web/auth/login_screen.dart' as web;
-import 'screens/mobile/auth/login_screen.dart' as mobile;
+import 'screens/web/splash/splash_screen.dart' as web;
+import 'screens/mobile/splash/splash_screen.dart' as mobile;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()..initialize()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => VendorProvider()),
         ChangeNotifierProvider(create: (_) => BusProvider()),
         ChangeNotifierProvider(create: (_) => RouteProvider()),
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: kIsWeb ? 'YatraPay - Admin & Vendor' : 'YatraPay - User App',
         theme: kIsWeb ? WebTheme.lightTheme : MobileTheme.lightTheme,
-        home: kIsWeb ? const web.LoginScreen() : const mobile.LoginScreen(),
+        home: kIsWeb ? const web.SplashScreen() : const mobile.SplashScreen(),
       ),
     );
   }
