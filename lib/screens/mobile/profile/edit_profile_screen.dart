@@ -22,7 +22,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final userData = Provider.of<AuthProvider>(context, listen: false).userData;
     _nameController = TextEditingController(text: userData?['name'] ?? '');
     _emailController = TextEditingController(text: userData?['email'] ?? '');
-    _phoneController = TextEditingController(text: userData?['phone'] ?? '');
   }
 
   @override
@@ -76,11 +75,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 decoration: const InputDecoration(labelText: 'Email'),
                 validator: (v) => v == null || v.isEmpty ? 'Enter your email' : null,
               ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(labelText: 'Phone'),
-              ),
+          
               const SizedBox(height: 32),
               SizedBox(
                 width: double.infinity,

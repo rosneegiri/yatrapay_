@@ -8,6 +8,26 @@ use Illuminate\Http\Request;
 
 class TripController extends Controller
 {
+    // Book a trip
+    public function bookTrip($id, Request $request)
+    {
+        // TODO: Implement booking logic
+        return response()->json(['message' => 'Trip booked', 'trip_id' => $id]);
+    }
+
+    // Check-in to a trip
+    public function checkIn($id, Request $request)
+    {
+        // TODO: Implement check-in logic
+        return response()->json(['message' => 'Checked in', 'trip_id' => $id]);
+    }
+
+    // Check-out from a trip
+    public function checkOut($id, Request $request)
+    {
+        // TODO: Implement check-out logic
+        return response()->json(['message' => 'Checked out', 'trip_id' => $id]);
+    }
     public function index(Request $request)
     {
         $query = Trip::with('route');

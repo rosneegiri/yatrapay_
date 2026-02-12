@@ -107,12 +107,7 @@ class UserProfileScreen extends StatelessWidget {
                     'Email',
                     userEmail,
                   ),
-                  _buildInfoTile(
-                    context,
-                    Icons.phone,
-                    'Phone',
-                    userPhone,
-                  ),
+              
                   _buildInfoTile(
                     context,
                     Icons.badge,
